@@ -1,12 +1,16 @@
 {
   "expo": {
-    "name": "comp265-e2",
-    "slug": "comp265-e2",
+    "name": "comp265-a2-chaungo",
+    "slug": "comp265-a2-chaungo",
     "version": "1.0.0",
+    "platforms": ["ios", "android", "web"],
+    "scheme": "yourapp",
+    "newArchEnabled": true,
+    "plugins": ["expo-router"],
+    "sdkVersion": "52.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
-    "newArchEnabled": true,
     "splash": {
       "image": "./assets/splash-icon.png",
       "resizeMode": "contain",
