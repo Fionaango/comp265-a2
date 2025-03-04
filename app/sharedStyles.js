@@ -6,8 +6,11 @@ export default StyleSheet.create({
     padding: 16,
     backgroundColor: '#fff'
   },
-  text: {
-    fontSize: 16,
-    color: '#333'
+  title: {
+    fontSize: 22,
+    marginBottom: 12
+  },
+  content: {
+    fontSize: 18
   }
 });

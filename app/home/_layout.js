@@ -4,14 +4,26 @@ import HomeIndex from './index';
 import ItemDetail from './[itemId]';
 import Details from './details';
 
-const Stack = createStackNavigator();
+const HomeStack = createStackNavigator();
 
 export default function HomeLayout() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Home" component={HomeIndex} />
-      <Stack.Screen name="ItemDetail" component={ItemDetail} />
-      <Stack.Screen name="Details" component={Details} />
-    </Stack.Navigator>
+    <HomeStack.Navigator initialRouteName="HomeIndex">
+      <HomeStack.Screen
+        name="HomeIndex"
+        component={HomeIndex}
+        options={{ title: 'Home' }}
+      />
+      <HomeStack.Screen
+        name="ItemDetail"
+        component={ItemDetail}
+        options={({ route }) => ({ title: `Item ${route.params.itemId}` })}
+      />
+      <HomeStack.Screen
+        name="Details"
+        component={Details}
+        options={{ title: 'More Details' }}
+      />
+    </HomeStack.Navigator>
   );
 }
