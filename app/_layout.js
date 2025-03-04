@@ -1,28 +1,62 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { Slot } from 'expo-router';
+import React, { createContext, useState } from 'react';
+import { Tabs } from 'expo-router';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { JournalProvider } from './context/journalContext';
 
-export default function Layout() {
+export const ThemeContext = createContext();
+
+export default function RootLayout() {
+  const [isDark, setIsDark] = useState(false);
+  const toggleTheme = () => setIsDark(prev => !prev);
+
   return (
     <JournalProvider>
-      <View style={styles.container}>
-        <View style={styles.header}>
-          <Text style={styles.headerText}>Comp265-a2-chaungo</Text>
-        </View>
-        <Slot />
-      </View>
+      <ThemeContext.Provider value={{ isDark, toggleTheme }}>
+        <Tabs
+          screenOptions={{
+            headerShown: false,
+            tabBarActiveTintColor: isDark ? darkText : lightText,
+            tabBarInactiveTintColor: isDark ? '#AAA' : '#888',
+            tabBarStyle: { backgroundColor: isDark ? darkBackground : '#FFF' },
+          }}
+        >
+          <Tabs.Screen
+            name="home"
+            options={{
+              title: 'Home',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="home" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="profile"
+            options={{
+              title: 'Profile',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="user" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tabs.Screen
+            name="settings"
+            options={{
+              title: 'Setting',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesome5 name="cog" size={size} color={color} />
+              ),
+            }}
+          />
+          <Tabs.Screen name="modal" options={{ href: null }} />
+        <Tabs.Screen name="index" options={{ href: null }} />
+        <Tabs.Screen name="journal" options={{ href: null }} />
+        <Tabs.Screen name="sharedStyles" options={{ href: null }} />
+        </Tabs>
+      </ThemeContext.Provider>
     </JournalProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: { flex: 1 },
-  header: {
-    paddingTop: 50,
-    paddingBottom: 10,
-    backgroundColor: '#6200EE',
-    alignItems: 'center'
-  },
-  headerText: { color: '#fff', fontSize: 20, fontWeight: 'bold' }
-});
+const darkBackground = '#333';
+const lightText = '#333';
+const darkText = '#FFF';

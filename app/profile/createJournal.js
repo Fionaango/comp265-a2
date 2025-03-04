@@ -1,6 +1,5 @@
 import React, { useState, useContext } from 'react';
 import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import { JournalContext } from './context/journalContext';
 
 export default function CreateJournal({ navigation }) {
   const [text, setText] = useState('');

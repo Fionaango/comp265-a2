@@ -1,21 +1,17 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { ScrollView, Text, Button } from 'react-native';
 import { useRouter } from 'expo-router';
+import { ThemeContext } from './_layout';
+import sharedStyles from './sharedStyles';
 
 export default function ModalScreen() {
   const router = useRouter();
+  const { isDark } = useContext(ThemeContext);
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Modal Screen</Text>
-      <Text style={styles.content}>This modal overlays other content.</Text>
-      <Button title="Close Modal" onPress={() => router.back()} />
-    </View>
+    <ScrollView contentContainerStyle={[sharedStyles.container, isDark && sharedStyles.darkBackground]}>
+      <Text style={[sharedStyles.header, isDark && sharedStyles.darkHeader]}>Modal Screen</Text>
+      <Button title="Close" onPress={() => router.back()} />
+    </ScrollView>
   );
 }
-
-const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, justifyContent: 'center', alignItems: 'center' },
-  title: { fontSize: 22, marginBottom: 12 },
-  content: { fontSize: 18, marginBottom: 20 }
-});

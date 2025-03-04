@@ -1,17 +1,34 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { ThemeContext } from '../_layout';
 
-export default function Details() {
+export default function DetailsScreen() {
+  const { isDark } = useContext(ThemeContext);
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Additional Details</Text>
-      <Text style={styles.content}>Here are some more details about the home section.</Text>
-    </View>
+    <ScrollView contentContainerStyle={[styles.container, isDark && styles.darkBackground]}>
+      <Text style={[styles.text, isDark && styles.darkText]}>
+        This is the Details screen in the Home tab!
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 22, marginBottom: 12 },
-  content: { fontSize: 18 }
+  container: { 
+    flexGrow: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FDFDFD',
+  },
+  darkBackground: {
+    backgroundColor: '#333',
+  },
+  text: {
+    fontSize: 18,
+    color: '#333',
+  },
+  darkText: {
+    color: '#FFF',
+  },
 });

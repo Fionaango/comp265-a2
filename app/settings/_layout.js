@@ -1,13 +1,15 @@
 import React from 'react';
-import { createStackNavigator } from '@react-navigation/stack';
-import SettingsIndex from './index';
-
-const SettingsStack = createStackNavigator();
+import { Stack } from 'expo-router';
 
 export default function SettingsLayout() {
   return (
-    <SettingsStack.Navigator>
-      <SettingsStack.Screen name="SettingsIndex" component={SettingsIndex} options={{ title: 'Settings' }} />
-    </SettingsStack.Navigator>
+    <Stack
+      screenOptions={{
+        headerStyle: { backgroundColor: '#f5f5f5' },
+        headerTintColor: '#333',
+        headerTitle: 'Settings',
+        headerLargeTitle: false,
+      }}
+    />
   );
 }

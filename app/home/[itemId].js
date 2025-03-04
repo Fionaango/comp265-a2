@@ -1,18 +1,37 @@
-import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import React, { useContext } from 'react';
+import { ScrollView, View, Text, StyleSheet } from 'react-native';
+import { useLocalSearchParams } from 'expo-router';
+import { ThemeContext } from '../_layout';
 
-export default function ItemDetail({ route }) {
-  const { itemId } = route.params;
+export default function ItemScreen() {
+  const { itemId } = useLocalSearchParams();
+  const { isDark } = useContext(ThemeContext);
+  
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Item Detail</Text>
-      <Text style={styles.content}>Details for item ID: {itemId}</Text>
-    </View>
+    <ScrollView contentContainerStyle={[styles.container, isDark && styles.darkBackground]}>
+      <Text style={[styles.text, isDark && styles.darkText]}>
+        Item ID: {itemId}
+      </Text>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16 },
-  title: { fontSize: 22, marginBottom: 12 },
-  content: { fontSize: 18 }
+  container: { 
+    flexGrow: 1, 
+    justifyContent: 'center', 
+    alignItems: 'center',
+    padding: 20,
+    backgroundColor: '#FDFDFD',
+  },
+  darkBackground: {
+    backgroundColor: '#333',
+  },
+  text: {
+    fontSize: 20,
+    color: '#333',
+  },
+  darkText: {
+    color: '#FFF',
+  },
 });
