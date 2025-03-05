@@ -1,18 +1,11 @@
 import React, { useState, useContext } from 'react';
-import {
-  ScrollView,
-  View,
-  Text,
-  TextInput,
-  Switch,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
+import { ScrollView, View, Text, TextInput, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useRouter } from 'expo-router';
 import { ThemeContext } from '../_layout';
 import sharedStyles, { primaryColor } from '../sharedStyles';
+import { JournalContext } from '../context/journalContext';
 import { username } from '../profile/index.js';
-import { JournalContext } from '../context/journalContext.js'; 
 
 const moods = [
   { id: 1, name: 'Happy', icon: 'smile-beam', color: '#eae4e9' },
@@ -37,16 +30,18 @@ const getGreeting = () => {
 };
 
 export default function HomeScreen() {
+  const router = useRouter();
   const { isDark } = useContext(ThemeContext);
   const { journals, addJournal, deleteJournal } = useContext(JournalContext);
-
   const [note, setNote] = useState('');
   const [showDetails, setShowDetails] = useState(true);
 
   const handleMoodSelect = (mood) => {
     const newEntry = {
       key: generateUniqueKey(),
-      ...mood,
+      name: mood.name,
+      icon: mood.icon,
+      color: mood.color,
       note,
       time: new Date().toLocaleTimeString(),
     };
@@ -65,39 +60,20 @@ export default function HomeScreen() {
         isDark && sharedStyles.darkBackground,
       ]}
     >
-      <Text
-        style={[
-          sharedStyles.header,
-          isDark && sharedStyles.darkHeader,
-          localStyles.centerText,
-          { marginTop: 20 }, 
-        ]}
-      >
+      <Text style={[sharedStyles.header, isDark && sharedStyles.darkHeader, styles.centerText, { marginTop: 20 }]}>
         {`${getGreeting()}, ${username}!`}
       </Text>
-      <Text
-        style={[
-          sharedStyles.text,
-          isDark && sharedStyles.darkText,
-          localStyles.centerText,
-        ]}
-      >
+      <Text style={[sharedStyles.text, isDark && sharedStyles.darkText, styles.centerText]}>
         How are you doing today?
       </Text>
-
       <View style={sharedStyles.moodContainer}>
         {moods.map((mood) => (
-          <TouchableOpacity
-            key={mood.id}
-            style={[localStyles.moodCircle, { backgroundColor: mood.color }]}
-            onPress={() => handleMoodSelect(mood)}
-          >
-            <FontAwesome5 name={mood.icon} size={20} style={localStyles.moodIcon} />
-            <Text style={localStyles.moodText}>{mood.name}</Text>
+          <TouchableOpacity key={mood.id} style={[styles.moodCircle, { backgroundColor: mood.color }]} onPress={() => handleMoodSelect(mood)}>
+            <FontAwesome5 name={mood.icon} size={20} style={styles.moodIcon} />
+            <Text style={styles.moodText}>{mood.name}</Text>
           </TouchableOpacity>
         ))}
       </View>
-
       <TextInput
         style={[sharedStyles.input, isDark && sharedStyles.darkInput]}
         placeholder="Whisper a secret (optional)."
@@ -107,20 +83,12 @@ export default function HomeScreen() {
       />
       <TouchableOpacity
         style={sharedStyles.blackButton}
-        onPress={() =>
-          handleMoodSelect({ name: 'Custom', icon: 'tools', color: '#cddafd' })
-        }
+        onPress={() => handleMoodSelect({ name: 'Custom', icon: 'tools', color: '#cddafd' })}
       >
         <Text style={sharedStyles.blackButtonText}>Add Mood</Text>
       </TouchableOpacity>
-
       <View style={sharedStyles.row}>
-        <Text
-          style={[
-            sharedStyles.switchLabel,
-            isDark && sharedStyles.darkSwitchLabel,
-          ]}
-        >
+        <Text style={[sharedStyles.switchLabel, isDark && sharedStyles.darkSwitchLabel]}>
           Show Details
         </Text>
         <Switch
@@ -130,40 +98,33 @@ export default function HomeScreen() {
           thumbColor={showDetails ? '#FFF' : '#f4f3f4'}
         />
       </View>
-
       {journals.map((entry) => (
-        <View
-          key={entry.key}
-          style={[
-            localStyles.historyEntry,
-            isDark && localStyles.darkHistoryEntry,
-          ]}
-        >
-          <View
-            style={[
-              localStyles.iconContainer,
-              { backgroundColor: entry.color },
-            ]}
-          >
-            <FontAwesome5 name={entry.icon} size={18} color="#000" />
+        <TouchableOpacity key={entry.key} onPress={() => router.push(`/home/${entry.key}`)}>
+          <View style={[styles.historyEntry, isDark && styles.darkHistoryEntry]}>
+            <View style={[styles.iconContainer, { backgroundColor: entry.color }]}>
+              <FontAwesome5 name={entry.icon} size={18} color="#000" />
+            </View>
+            <Text style={[styles.entryText, isDark && styles.darkText]}>
+              {entry.name} - {entry.time}
+              {showDetails && entry.note ? `\nNote: ${entry.note}` : ''}
+            </Text>
+            <TouchableOpacity onPress={() => handleDelete(entry.key)} style={styles.deleteButton}>
+              <FontAwesome5 name="trash-alt" size={18} color="#FF6B6B" />
+            </TouchableOpacity>
           </View>
-          <Text style={[localStyles.entryText, isDark && localStyles.darkText]}>
-            {entry.name} - {entry.time}
-            {showDetails && entry.note ? `\nNote: ${entry.note}` : ''}
-          </Text>
-          <TouchableOpacity
-            onPress={() => handleDelete(entry.key)}
-            style={localStyles.deleteButton}
-          >
-            <FontAwesome5 name="trash-alt" size={18} color="#FF6B6B" />
-          </TouchableOpacity>
-        </View>
+        </TouchableOpacity>
       ))}
+      <TouchableOpacity
+        style={[sharedStyles.blackButton, { marginTop: 20 }]}
+        onPress={() => router.push('/modal?type=deleteAll')}
+      >
+        <Text style={sharedStyles.blackButtonText}>Delete All Journals</Text>
+      </TouchableOpacity>
     </ScrollView>
   );
 }
 
-const localStyles = StyleSheet.create({
+const styles = StyleSheet.create({
   centerText: {
     textAlign: 'center',
   },
