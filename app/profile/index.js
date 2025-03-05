@@ -36,7 +36,7 @@ export default function ProfileScreen() {
         <Text style={[styles.email, isDark && styles.darkText]}>{email}</Text>
 
         <TouchableOpacity
-          style={[sharedStyles.blackButton, localStyles.actionButton]}
+          style={[sharedStyles.blackButton, styles.actionButton]}
           onPress={() => {
             router.push('/profile/account');
           }}
@@ -47,9 +47,8 @@ export default function ProfileScreen() {
 
       <View style={[styles.section, isDark && { backgroundColor: '#666' }]}>
         <Text style={[styles.sectionTitle, isDark && styles.darkText]}>Account</Text>
-
         <TouchableOpacity
-          style={localStyles.rowContainer}
+          style={styles.rowContainer}
           onPress={() => router.push('/profile/account')}
         >
           <View style={styles.rowLeft}>
@@ -62,9 +61,8 @@ export default function ProfileScreen() {
 
       <View style={[styles.section, isDark && { backgroundColor: '#666' }]}>
         <Text style={[styles.sectionTitle, isDark && styles.darkText]}>Journal</Text>
-
         <TouchableOpacity
-          style={localStyles.rowContainer}
+          style={styles.rowContainer}
           onPress={() => router.push('/profile/createJournal')}
         >
           <View style={styles.rowLeft}>
@@ -75,7 +73,7 @@ export default function ProfileScreen() {
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={localStyles.rowContainer}
+          style={styles.rowContainer}
           onPress={() => router.push('/profile/[alljournalId]')}
         >
           <View style={styles.rowLeft}>
@@ -88,10 +86,9 @@ export default function ProfileScreen() {
 
       <View style={[styles.section, isDark && { backgroundColor: '#666' }]}>
         <Text style={[styles.sectionTitle, isDark && styles.darkText]}>Friend's Mood</Text>
-
         <TouchableOpacity
-          style={localStyles.rowContainer}
-          onPress={() => router.push('/profile/[userId]')} 
+          style={styles.rowContainer}
+          onPress={() => router.push('/friend/friend123')} 
         >
           <View style={styles.rowLeft}>
             <FontAwesome5 name="user-friends" size={20} color="#333" style={styles.rowIcon} />
@@ -103,22 +100,6 @@ export default function ProfileScreen() {
     </ScrollView>
   );
 }
-
-const localStyles = StyleSheet.create({
-  actionButton: {
-    marginVertical: 10,
-  },
-  rowContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    paddingVertical: 12,
-    borderTopColor: '#EEE',
-    borderTopWidth: 1,
-    marginVertical: 5,
-    paddingHorizontal: 10,
-  },
-});
 
 const styles = StyleSheet.create({
   headerContainer: {
@@ -152,6 +133,9 @@ const styles = StyleSheet.create({
   darkText: {
     color: '#FFF',
   },
+  actionButton: {
+    marginVertical: 12,
+  },
   section: {
     backgroundColor: '#FFF',
     marginBottom: 10,
@@ -163,6 +147,16 @@ const styles = StyleSheet.create({
     fontWeight: '600',
     color: '#666',
     marginBottom: 10,
+  },
+  rowContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    paddingVertical: 12,
+    borderTopColor: '#EEE',
+    borderTopWidth: 1,
+    marginVertical: 5,
+    paddingHorizontal: 10,
   },
   rowLeft: {
     flexDirection: 'row',
