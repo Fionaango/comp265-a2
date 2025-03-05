@@ -4,7 +4,7 @@ const lightBackground = '#FDFDFD';
 const darkBackground = '#333';
 const lightText = '#333';
 const darkText = '#FFF';
-export const primaryColor = '#4CAF50';
+export const primaryColor = '#4CAF50'; 
 
 export default StyleSheet.create({
   container: {
