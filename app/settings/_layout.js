@@ -8,7 +8,7 @@ export default function SettingsLayout() {
         headerStyle: { backgroundColor: '#f5f5f5' },
         headerTintColor: '#333',
         headerTitle: 'Settings',
-        headerLargeTitle: false,
+        headerLargeTitle: false, 
       }}
     />
   );
