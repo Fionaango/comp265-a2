@@ -1,34 +1,21 @@
 import React, { useContext, useState } from 'react';
-import {
-  View,
-  Text,
-  FlatList,
-  TouchableOpacity,
-  Switch,
-  StyleSheet,
-} from 'react-native';
+import { View, Text, FlatList, TouchableOpacity, Switch, StyleSheet } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
-import { JournalContext } from '../context/journalContext';
+import { JournalContext } from '../context/journalContext'; 
 import { ThemeContext } from '../_layout';
 import sharedStyles, { primaryColor } from '../sharedStyles';
 
 export default function AllJournalId() {
-  const { journals, deleteAllJournals, deleteJournal } = useContext(JournalContext);
+  const { journals, deleteJournal, deleteAllJournals } = useContext(JournalContext);
   const { isDark } = useContext(ThemeContext);
-
   const [showDetails, setShowDetails] = useState(true);
 
   const renderItem = ({ item }) => (
-    <View style={[styles.historyEntry, isDark && styles.darkHistoryEntry]}>
-      <View style={[styles.iconContainer, { backgroundColor: item.color }]}>
-        <FontAwesome5 name={item.icon} size={18} color="#000" />
-      </View>
-
+    <View style={[styles.journalEntry, isDark && styles.darkJournalEntry]}>
       <Text style={[styles.entryText, isDark && styles.darkText]}>
         {item.name} - {item.time}
         {showDetails && item.note ? `\nNote: ${item.note}` : ''}
       </Text>
-
       <TouchableOpacity onPress={() => deleteJournal(item.key)} style={styles.deleteButton}>
         <FontAwesome5 name="trash-alt" size={18} color="#FF6B6B" />
       </TouchableOpacity>
@@ -37,7 +24,6 @@ export default function AllJournalId() {
 
   return (
     <View style={[sharedStyles.container, isDark && sharedStyles.darkBackground]}>
-
       <View style={[sharedStyles.row, { marginVertical: 0 }]}>
         <Text style={[sharedStyles.switchLabel, isDark && sharedStyles.darkSwitchLabel]}>
           Show Details
@@ -52,7 +38,7 @@ export default function AllJournalId() {
 
       <FlatList
         data={journals}
-        keyExtractor={(item) => item.key.toString()}
+        keyExtractor={(item) => item.key}
         renderItem={renderItem}
       />
 
@@ -67,7 +53,7 @@ export default function AllJournalId() {
 }
 
 const styles = StyleSheet.create({
-  historyEntry: {
+  journalEntry: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: '#FFF',
@@ -80,16 +66,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 2,
   },
-  darkHistoryEntry: {
+  darkJournalEntry: {
     backgroundColor: '#444',
-  },
-  iconContainer: {
-    width: 30,
-    height: 30,
-    borderRadius: 15,
-    marginRight: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   entryText: {
     flex: 1,
