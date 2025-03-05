@@ -8,23 +8,22 @@ import {
   ActivityIndicator,
   StyleSheet,
 } from 'react-native';
-import { FontAwesome5 } from '@expo/vector-icons';
 import { useLocalSearchParams } from 'expo-router';
-import { ThemeContext } from '../_layout';
-import sharedStyles from '../sharedStyles';
+import { FontAwesome5 } from '@expo/vector-icons';
+import { ThemeContext } from '../_layout'; 
+import sharedStyles, { primaryColor } from '../sharedStyles';
 
 export default function FriendStatusScreen() {
   const { isDark } = useContext(ThemeContext);
-  const { userId } = useLocalSearchParams(); 
+  const { userId } = useLocalSearchParams();
   const [friendId, setFriendId] = useState('');
   const [loading, setLoading] = useState(false);
   const [friendStatus, setFriendStatus] = useState('');
 
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     if (!friendId.trim()) return;
     setLoading(true);
     setFriendStatus('');
-
     setTimeout(() => {
       setFriendStatus(`Friend "${friendId}" is doing great today!`);
       setLoading(false);
@@ -39,13 +38,9 @@ export default function FriendStatusScreen() {
         { paddingBottom: 30 },
       ]}
     >
-      <Text style={[sharedStyles.header, isDark && sharedStyles.darkHeader, styles.centerText]}>
-        Check Friend's Status for {userId}
-      </Text>
-
       <View style={styles.formContainer}>
         <TextInput
-          style={[styles.input, isDark && styles.inputDark]}
+          style={[sharedStyles.input, isDark && sharedStyles.darkInput]}
           placeholder="Enter friend's ID"
           placeholderTextColor={isDark ? '#CCC' : '#888'}
           value={friendId}
@@ -53,47 +48,43 @@ export default function FriendStatusScreen() {
           autoCapitalize="none"
         />
         <TouchableOpacity
-          style={styles.submitButton}
+          style={sharedStyles.blackButton}
           onPress={handleSubmit}
           disabled={loading || !friendId.trim()}
         >
           {loading ? (
             <ActivityIndicator color="#FFF" />
           ) : (
-            <Text style={styles.submitButtonText}>Submit</Text>
+            <Text style={sharedStyles.blackButtonText}>Submit</Text>
           )}
         </TouchableOpacity>
       </View>
 
       {friendStatus ? (
-        <Text style={[styles.statusText, isDark && styles.darkText]}>
+        <Text style={[styles.statusText, isDark && sharedStyles.darkText]}>
           {friendStatus}
         </Text>
       ) : null}
 
-      <View style={[styles.section, isDark && { backgroundColor: '#666' }]}>
-        <Text style={[styles.sectionTitle, isDark && styles.darkText]}>Friends’ IDs</Text>
-
-        <TouchableOpacity
-          style={styles.rowContainer}
-          onPress={() => {
-          }}
-        >
+      <View style={[styles.section, isDark && styles.darkSection]}>
+        <Text style={[styles.sectionTitle, isDark && sharedStyles.darkText]}>
+          Friends’ IDs
+        </Text>
+        <TouchableOpacity style={styles.rowContainer} onPress={() => { }}>
           <View style={styles.rowLeft}>
             <FontAwesome5 name="user-plus" size={20} color="#333" style={styles.rowIcon} />
-            <Text style={[styles.rowText, isDark && styles.darkText]}>Add New ID</Text>
+            <Text style={[styles.rowText, isDark && sharedStyles.darkText]}>
+              Add New ID
+            </Text>
           </View>
           <FontAwesome5 name="chevron-right" size={16} color="#999" />
         </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.rowContainer}
-          onPress={() => {
-          }}
-        >
+        <TouchableOpacity style={styles.rowContainer} onPress={() => { }}>
           <View style={styles.rowLeft}>
             <FontAwesome5 name="users" size={20} color="#333" style={styles.rowIcon} />
-            <Text style={[styles.rowText, isDark && styles.darkText]}>View Existing IDs</Text>
+            <Text style={[styles.rowText, isDark && sharedStyles.darkText]}>
+              View Existing IDs
+            </Text>
           </View>
           <FontAwesome5 name="chevron-right" size={16} color="#999" />
         </TouchableOpacity>
@@ -103,37 +94,9 @@ export default function FriendStatusScreen() {
 }
 
 const styles = StyleSheet.create({
-  centerText: {
-    textAlign: 'center',
-  },
   formContainer: {
     paddingHorizontal: 20,
     marginVertical: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 8,
-    paddingVertical: 10,
-    paddingHorizontal: 15,
-    fontSize: 16,
-    color: '#333',
-    marginBottom: 15,
-  },
-  inputDark: {
-    borderColor: '#888',
-    color: '#FFF',
-  },
-  submitButton: {
-    backgroundColor: '#6C63FF',
-    paddingVertical: 12,
-    borderRadius: 8,
-    alignItems: 'center',
-  },
-  submitButtonText: {
-    color: '#FFF',
-    fontSize: 16,
-    fontWeight: '600',
   },
   statusText: {
     marginTop: 30,
@@ -147,14 +110,14 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     paddingVertical: 15,
   },
+  darkSection: {
+    backgroundColor: '#666',
+  },
   sectionTitle: {
     fontSize: 16,
     fontWeight: '600',
     color: '#666',
     marginBottom: 10,
-  },
-  darkText: {
-    color: '#FFF',
   },
   rowContainer: {
     flexDirection: 'row',
@@ -176,3 +139,4 @@ const styles = StyleSheet.create({
     color: '#333',
   },
 });
+
