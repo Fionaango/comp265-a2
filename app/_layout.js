@@ -2,12 +2,17 @@ import React, { createContext, useState } from 'react';
 import { Tabs } from 'expo-router';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { JournalProvider } from './context/journalContext';
+import sharedStyles from './sharedStyles'; 
 
 export const ThemeContext = createContext();
 
+const darkBackground = '#333';
+const lightText = '#333';
+const darkText = '#FFF';
+
 export default function RootLayout() {
   const [isDark, setIsDark] = useState(false);
-  const toggleTheme = () => setIsDark(prev => !prev);
+  const toggleTheme = () => setIsDark((prev) => !prev);
 
   return (
     <JournalProvider>
@@ -47,16 +52,12 @@ export default function RootLayout() {
               ),
             }}
           />
+          <Tabs.Screen name="index" options={{ href: null }} />
           <Tabs.Screen name="modal" options={{ href: null }} />
-        <Tabs.Screen name="index" options={{ href: null }} />
-        <Tabs.Screen name="journal" options={{ href: null }} />
-        <Tabs.Screen name="sharedStyles" options={{ href: null }} />
+          <Tabs.Screen name="sharedStyles" options={{ href: null }} />
+          <Tabs.Screen name="friend" options={{ href: null }} />
         </Tabs>
       </ThemeContext.Provider>
     </JournalProvider>
   );
 }
-
-const darkBackground = '#333';
-const lightText = '#333';
-const darkText = '#FFF';
